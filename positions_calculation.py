@@ -1,4 +1,6 @@
 # alpha is a difference calculation and the other ones are absolut calculations
+import math
+
 import numpy as np
 
 ZERO_COORDINATE = {"x": 0, "y": 0, "z": 0}
@@ -28,6 +30,12 @@ def calculate_new_angles_movement(current_robot_position, target_position):
         calculate_distance_between_coordinates(ZERO_COORDINATE, target_position),
         calculate_distance_between_coordinates(ZERO_COORDINATE, current_robot_position)
     )
+    if target_position["x"] <= current_robot_position["x"] and target_position["x"] > 0:
+        alpha_target_angle *= -1
+
+    if target_position["x"] < current_robot_position["x"] and target_position["x"] < 0:
+        alpha_target_angle *= -1
+
     height = target_position["z"]
 
     distance_on_height = np.sqrt(
@@ -50,3 +58,16 @@ def calculate_new_angles_movement(current_robot_position, target_position):
         ROBOT_ARM_LENGTH_FIRST
     )
     return {"alpha": alpha_target_angle, "beta": beta_target_angle, "gamma": gamma_target_angle}
+
+
+def rotate_coordinates(coordinates, radians):
+    # Convert degrees to radians
+
+    # Create the rotation matrix
+    rotation_matrix = np.array([[np.cos(radians), -np.sin(radians)],
+                                [np.sin(radians), np.cos(radians)]])
+
+    # Apply the rotation matrix to the coordinates
+    rotated_coordinates = np.dot(coordinates, rotation_matrix)
+
+    return rotated_coordinates
