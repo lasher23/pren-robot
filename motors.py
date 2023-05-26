@@ -1,5 +1,9 @@
 import threading
-import serial
+
+try:
+    import serial
+except:
+    print("Not on Raspi")
 import numpy as np
 
 
@@ -19,14 +23,16 @@ class Motors:
         callback()
 
     def move_one_angle(self, code, angle):
-        delta = angle[1] - angle[0]
-        self.serial.write(code + "." + np.abs(delta) + "." + angle[2] / delta + "." + delta < 0)
+        delta = np.rad2deg(angle[1]) - np.rad2deg(angle[0])
+        self.serial.write("step m" + code + ".d" + "R" if (delta < 0) else "L" + ".v" + np.rad2deg(
+            angle[2]) / delta + ".w" + np.abs(delta) * 100)
+        self.serial.write(
+            code + "." + np.abs(delta) + "." + np.rad2deg(angle[2]) / delta + "." + "R" if (delta < 0) else "L")
         result = self.serial.readline().decode().strip()
         print(result)
 
 
 class MockMotors:
-    def __init__(self):
 
     def move_to(self, alpha, beta, gamma, callback):
         # TODO call robot
