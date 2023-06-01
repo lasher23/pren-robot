@@ -11,13 +11,16 @@ class Motors:
         threading.Thread(target=self.move_to_internal, args=(alpha, beta, gamma, callback))
 
     def move_to_internal(self, alpha, beta, gamma, callback):
-        print("Moving alpha")
-        self.move_one_angle("a", alpha)
-        print("Moving beta")
-        self.move_one_angle("b", beta)
-        print("Moving gamma")
-        self.move_one_angle("c", gamma)
-        callback()
+        try:
+            print("Moving alpha")
+            self.move_one_angle("a", alpha)
+            print("Moving beta")
+            self.move_one_angle("b", beta)
+            print("Moving gamma")
+            self.move_one_angle("c", gamma)
+            callback()
+        except Exception as e:
+            print(e)
 
     def move_one_angle(self, code, angle):
         delta = np.rad2deg(angle[1]) - np.rad2deg(angle[0])
