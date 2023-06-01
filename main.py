@@ -212,7 +212,7 @@ class Robot:
             elif self.state == ABOVE_ELEMENT:
                 self.check_further_down()
             elif self.state == MOVE_STEP_DOWN:
-                self.move_to_coordinates({**self.current_robot_position, "z": self.current_robot_position["z"] - 20},
+                self.move_to_coordinates({**self.current_robot_position, "z": self.current_robot_position["z"] - 10},
                                          self.check_further_down)
                 self.moving()
             elif self.state == CHECK_FURTHER_DOWN:

@@ -7,13 +7,15 @@ class Motors:
         self.serial = serial
 
     def move_to(self, alpha, beta, gamma, callback):
-        # TODO call robot
-        print("TODO move_to")
+        print("Starting move thread")
         threading.Thread(target=self.move_to_internal, args=(alpha, beta, gamma, callback))
 
     def move_to_internal(self, alpha, beta, gamma, callback):
+        print("Moving alpha")
         self.move_one_angle("a", alpha)
+        print("Moving beta")
         self.move_one_angle("b", beta)
+        print("Moving gamma")
         self.move_one_angle("c", gamma)
         callback()
 
