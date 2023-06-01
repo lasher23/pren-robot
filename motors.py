@@ -29,10 +29,10 @@ class Motors:
         command = "step m" + code + ".d" + ("L" if (delta < 0) else "R") + ".v" + str(
             speed) + ".w" + str(
             int(np.round(np.abs(delta) * 100))) + ".cE\n"
-        self.serial.write(bytes(command, 'ascii'))
         print("Command is")
         print(command)
-        result = self.serial.readline().decode().strip()
+        self.serial.write(bytes(command, 'ascii'))
+        result = self.serial.readline()
         print("result is:")
         print(result)
 
