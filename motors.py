@@ -24,8 +24,11 @@ class Motors:
 
     def move_one_angle(self, code, angle):
         delta = np.rad2deg(angle[1]) - np.rad2deg(angle[0])
-        self.serial.write(bytes("step m" + code + ".d" + "R" if (delta < 0) else "L" + ".v" + str(np.rad2deg(
-            angle[2]) / delta) + ".w" + str(np.abs(delta) * 100), 'ascii'))
+        command = "step m" + code + ".d" + "R" if (delta < 0) else "L" + ".v" + str(
+            np.rad2deg(angle[2]) / delta) + ".w" + str(np.abs(delta) * 100)
+        self.serial.write(bytes(command, 'ascii'))
+        print("Command is")
+        print(command)
         result = self.serial.readline().decode().strip()
         print("result is:")
         print(result)
