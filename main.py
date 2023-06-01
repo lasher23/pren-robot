@@ -79,7 +79,7 @@ class Robot:
     #    motors = MockMotors()
     #     height_sensor = MockHeightSensor()
     # /dev/ttyACM0
-    ser = serial.Serial('/dev/ttyACM0', 57600, timeout=1)
+    ser = serial.Serial('/dev/ttyACM0', 57600, timeout=10000)
     motors = Motors(ser)
     height_sensor = HeightSensor(ser)
 
