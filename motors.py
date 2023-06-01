@@ -27,6 +27,7 @@ class Motors:
         self.serial.write(bytes("step m" + code + ".d" + "R" if (delta < 0) else "L" + ".v" + str(np.rad2deg(
             angle[2]) / delta) + ".w" + str(np.abs(delta) * 100), 'ascii'))
         result = self.serial.readline().decode().strip()
+        print("result is:")
         print(result)
 
 
