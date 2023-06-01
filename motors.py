@@ -32,9 +32,12 @@ class Motors:
         print("Command is")
         print(command)
         self.serial.write(bytes(command, 'ascii'))
-        result = self.serial.readline()
-        print("result is:")
-        print(result)
+        while True:
+            result = self.serial.readline().decode().strip()
+            if "successfully" in result:
+                print("result is:")
+                print(result)
+                break
 
 
 class MockMotors:
