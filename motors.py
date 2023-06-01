@@ -8,7 +8,7 @@ class Motors:
 
     def move_to(self, alpha, beta, gamma, callback):
         print("Starting move thread")
-        threading.Thread(target=self.move_to_internal, args=(alpha, beta, gamma, callback))
+        threading.Thread(target=self.move_to_internal, args=(alpha, beta, gamma, callback)).start()
 
     def move_to_internal(self, alpha, beta, gamma, callback):
         try:
