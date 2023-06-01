@@ -75,9 +75,9 @@ def calculate_target_coordinates_from_pixels(current_robot_position, on_camera_p
 
 class Robot:
     state = "INIT"
-#    detection = Detection()
-#    motors = MockMotors()
-    height_sensor = MockHeightSensor()
+    #    detection = Detection()
+    #    motors = MockMotors()
+    #     height_sensor = MockHeightSensor()
     # /dev/ttyACM0
     ser = serial.Serial('/dev/ttyAMA1', 57600, timeout=1)
     motors = Motors(ser)
@@ -88,7 +88,7 @@ class Robot:
     current_angles = {"alpha": None, "beta": None, "gamma": None}
     moving_to_angles = {"alpha": None, "beta": None, "gamma": None}
     current_type = None
-    detection1 = MockDetection([
+    detection = MockDetection([
         {"x": 400, "y": 200, "type": "PET"},
         None,
         {"x": 200, "y": 400, "type": "Kronkorken"},
