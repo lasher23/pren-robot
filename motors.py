@@ -1,15 +1,10 @@
 import threading
-
-try:
-    import serial
-except:
-    print("Not on Raspi")
 import numpy as np
 
 
 class Motors:
-    def __init__(self):
-        self.serial = serial.Serial('/dev/ttyACM0', 57600, timeout=1)
+    def __init__(self, serial):
+        self.serial = serial
 
     def move_to(self, alpha, beta, gamma, callback):
         # TODO call robot
@@ -26,8 +21,6 @@ class Motors:
         delta = np.rad2deg(angle[1]) - np.rad2deg(angle[0])
         self.serial.write("step m" + code + ".d" + "R" if (delta < 0) else "L" + ".v" + np.rad2deg(
             angle[2]) / delta + ".w" + np.abs(delta) * 100)
-        self.serial.write(
-            code + "." + np.abs(delta) + "." + np.rad2deg(angle[2]) / delta + "." + "R" if (delta < 0) else "L")
         result = self.serial.readline().decode().strip()
         print(result)
 

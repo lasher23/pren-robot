@@ -9,6 +9,20 @@ from matplotlib.patches import Rectangle
 IMAGE_RESOLUTION_HEIGHT = 640
 IMAGE_RESOLUTION_WIDTH = 640
 url = "http://prenh22-naufdenb.el.eee.intern:443/detect"
+detectionStrategy = "nocam"
+
+class_type_mapping = {
+    2: "PET",
+    1: "Kronkorken",
+    3: "Cigarette",
+    4: "Valuable"
+}
+
+
+def image_to_binary(image_path):
+    with open(image_path, 'rb') as image_file:
+        binary_data = base64.b64encode(image_file.read())
+    return binary_data.decode('utf-8')
 
 
 class Detection:
@@ -17,18 +31,27 @@ class Detection:
         self.cap = cv2.VideoCapture(0)
         self.cap.set(3, IMAGE_RESOLUTION_WIDTH)
         self.cap.set(4, IMAGE_RESOLUTION_HEIGHT)
+        self.image_names = ["IMG_7913.JPG", "IMG_7914.JPG", "IMG_7915.JPG", "IMG_7916.JPG", "IMG_7917.JPG"]
+        self.images = []
+        for name in self.image_names:
+            self.images.append(image_to_binary("images/" + name))
 
     def detect(self):
-        _, img = self.cap.read()
-        img = cv2.flip(img, 1)
+        if detectionStrategy == "camera":
+            _, img = self.cap.read()
+            img = cv2.flip(img, 1)
 
-        rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        retval, image = cv2.imencode('.jpg', rgb_img)
-        # TODO REST Call
-        files = {"image": image}
+            rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            retval, image = cv2.imencode('.jpg', rgb_img)
+            files = {"image": image}
+            # TODO REST Call
+        else:
+            files = {"image": self.images.pop(0)}
+            image = "images/" + self.image_names.pop(0)
+            with open(image, "rb") as file:
+                response = requests.post(url, files={"image": file})
 
-        # Send the POST request with the image file as the payload
-        response = requests.post(url, files=files)
+        # send the POST request with the image file as the payload
 
         # Check the response status code
         if response.status_code == 200:
@@ -58,6 +81,11 @@ class Detection:
             plt.show()
 
             print(parsed)
+            first_object = parsed[0]
+            type = class_type_mapping[first_object["class"]]
+            x = (first_object["box"][1] + first_object["box"][3]) / 2
+            y = (first_object["box"][0] + first_object["box"][2]) / 2
+            return {"x": x, "y": y, "type": type}
         else:
             print("Failed to upload image. Status code:", response.status_code)
         return {"x": 320, "y": 320}
