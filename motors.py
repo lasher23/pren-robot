@@ -15,9 +15,9 @@ class Motors:
             print("Moving alpha")
             self.move_one_angle("A", alpha)
             print("Moving beta")
-            self.move_one_angle("<b", beta)
+            self.move_one_angle("B", beta)
             print("Moving gamma")
-            self.move_one_angle("<v", gamma)
+            self.move_one_angle("C", gamma)
             callback()
         except Exception as e:
             print(e)
@@ -26,7 +26,7 @@ class Motors:
         delta = np.rad2deg(angle[1]) - np.rad2deg(angle[0])
         speed = int(np.round(np.abs(np.rad2deg(angle[2]) / delta)))
         speed = 5
-        command = "step m" + code + ".d" + ("R" if (delta < 0) else "L") + ".v" + str(
+        command = "step m" + code + ".d" + ("L" if (delta < 0) else "R") + ".v" + str(
             speed) + ".w" + str(
             int(np.round(np.abs(delta) * 100))) + ".cE\n"
         self.serial.write(bytes(command, 'ascii'))
