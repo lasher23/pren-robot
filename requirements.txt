@@ -1,7 +1,6 @@
 visual-kinematics
 OpenCV-Python~=4.7.0.72
 OpenCV-Contrib-Python
-klampt
 tinyik~=2.2.1
 numpy~=1.24.2
 ikpy~=3.3.3
@@ -9,7 +8,6 @@ sympy~=1.11.1
 matplotlib~=3.7.1
 requests~=2.30.0
 asyncio
-serial
 absl-py==1.4.0
 astunparse==1.6.3
 cachetools==5.3.0

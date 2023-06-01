@@ -2,7 +2,7 @@ import sys
 import time
 from datetime import datetime, timedelta
 
-from height_sensor import MockHeightSensor
+from height_sensor import MockHeightSensor, HeightSensor
 
 try:
     import serial
@@ -11,7 +11,7 @@ except:
 import numpy as np
 
 from detection import IMAGE_RESOLUTION_WIDTH, IMAGE_RESOLUTION_HEIGHT, MockDetection, Detection
-from motors import MockMotors
+from motors import MockMotors, Motors
 from positions_calculation import calculate_new_angles_movement, add_angles
 from web_api import post_move, start_run, post_object, stop_run
 
@@ -75,12 +75,13 @@ def calculate_target_coordinates_from_pixels(current_robot_position, on_camera_p
 
 class Robot:
     state = "INIT"
-    detection = Detection()
-    motors = MockMotors()
+#    detection = Detection()
+#    motors = MockMotors()
     height_sensor = MockHeightSensor()
-    # ser = serial.Serial('/dev/ttyACM0', 57600, timeout=1)
-    # motors = Motors(ser)
-    # height_sensor = HeightSensor(ser)
+    # /dev/ttyACM0
+    ser = serial.Serial('/dev/ttyAMA1', 57600, timeout=1)
+    motors = Motors(ser)
+    height_sensor = HeightSensor(ser)
 
     current_robot_position = None
     target_position = None
