@@ -172,7 +172,7 @@ class Robot:
             # print("Current state: " + state)
             if self.state == "INIT":
                 self.target_position = {"x": 0, "y": 400, "z": 200}
-                self.current_robot_position = {"x": 0, "y": 585 * 2, "z": 0}
+                self.current_robot_position = {"x": 100, "y": 100, "z": 0}
                 self.current_angles = {"alpha": 0, "beta": 0, "gamma": 0}
                 additional_angles = calculate_new_angles_movement(self.current_robot_position, self.target_position)
                 self.moving_to_angles = add_angles(self.current_angles, additional_angles)
