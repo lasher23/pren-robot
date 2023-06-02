@@ -308,10 +308,10 @@ class Robot:
 
     def log_current_angles(self):
         print(
-            "Moving Robot to anlges RAD: alpha(" + str(self.current_angles["alpha"]) + "), beta(" + str(
+            "Current anlges RAD: alpha(" + str(self.current_angles["alpha"]) + "), beta(" + str(
                 self.current_angles["beta"]) + "), gamma(" + str(self.current_angles["gamma"]) + ")")
         print(
-            "Moving Robot to anlges DEG: alpha(" + str(np.rad2deg(self.current_angles["alpha"])) + "), beta(" + str(
+            "Current anlges DEG: alpha(" + str(np.rad2deg(self.current_angles["alpha"])) + "), beta(" + str(
                 np.rad2deg(self.current_angles["beta"])) + ") , gamma(" + str(
                 np.rad2deg(self.current_angles["gamma"])) + ")")
 
