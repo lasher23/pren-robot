@@ -1,4 +1,4 @@
-class VacumPicker:
+class VacuumPicker:
     def __init__(self, serial):
         self.serial = serial
 
@@ -12,7 +12,7 @@ class VacumPicker:
                 print(result)
                 break
 
-    def let_down(self):
+    def drop_down(self):
         command = "gpio pV.sL\n"
         self.serial.write(bytes(command, 'ascii'))
         while True:

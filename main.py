@@ -3,6 +3,7 @@ import time
 from datetime import datetime, timedelta
 
 from height_sensor import MockHeightSensor, HeightSensor
+from vacuum_picker import VacuumPicker
 
 try:
     import serial
@@ -82,7 +83,7 @@ class Robot:
     ser = serial.Serial('/dev/ttyACM0', 57600, timeout=10000)
     motors = Motors(ser)
     height_sensor = HeightSensor(ser)
-
+    vacuum_picker = VacuumPicker()
     current_robot_position = None
     target_position = None
     current_angles = {"alpha": None, "beta": None, "gamma": None}
@@ -215,7 +216,7 @@ class Robot:
                 else:
                     self.move_step_down()
             elif self.state == AT_ELEMENT:
-                # todo grab element
+                self.vacuum_picker.pick_up()
                 if self.current_type == "Kronkorken":
                     drop = KRONKORKEN_DROP
                 elif self.current_type == "PET":
@@ -229,6 +230,7 @@ class Robot:
                 self.moving()
             elif self.state == DROP_ELEMENT:
                 # TODO drop element
+                self.vacuum_picker.drop_down()
                 post_object(self.current_type)
                 self.state = CURRENT_SECTOR
             elif self.state == STOP_ROBOT:
