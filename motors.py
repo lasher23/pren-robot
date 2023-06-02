@@ -10,7 +10,7 @@ class Motors:
         print("Starting move thread")
         threading.Thread(target=self.move_to_internal, args=(alpha, beta, gamma, callback)).start()
 
-    def move_to_internal(self, alpha, beta, gamma, callback, init=false):
+    def move_to_internal(self, alpha, beta, gamma, callback, init=False):
         try:
             print("Moving alpha")
             self.move_one_angle("A", alpha, init)
