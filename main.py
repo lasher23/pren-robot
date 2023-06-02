@@ -111,7 +111,7 @@ class Robot:
     sectors = [
         {
             "position": {
-                "x": 200,
+                "x": 100,
                 "y": 400,
                 "z": 200
             }
