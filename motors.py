@@ -12,10 +12,10 @@ class Motors:
 
     def move_to_internal(self, alpha, beta, gamma, callback):
         try:
-            print("Moving alpha")
-            self.move_one_angle("A", alpha)
             print("Moving beta")
             self.move_one_angle("B", beta)
+            print("Moving alpha")
+            self.move_one_angle("A", alpha)
             print("Moving gamma")
             self.move_one_angle("C", gamma)
             callback()
