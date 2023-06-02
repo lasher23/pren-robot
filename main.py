@@ -173,7 +173,7 @@ class Robot:
             # print("Current state: " + state)
             if self.state == "INIT":
                 start_run()
-                self.motors.move_to((0, -90, MOVEMENT_DURATION),
+                self.motors.move_to((0, 90, MOVEMENT_DURATION),
                                     (0, 90, MOVEMENT_DURATION),
                                     (0, 90, MOVEMENT_DURATION), self.init_done, True)
                 self.moving()
