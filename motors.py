@@ -26,7 +26,9 @@ class Motors:
         delta = np.rad2deg(angle[1]) - np.rad2deg(angle[0])
         speed = int(np.round(np.abs(np.rad2deg(angle[2]) / delta)))
         speed = 5
-        command = "step m" + code + ".d" + ("R" if (delta < 0) else "L") + ".v" + str(
+        rightCode = "R" if code == "A" else "L"
+        leftCode = "L" if code == "A" else "D"
+        command = "step m" + code + ".d" + (rightCode if (delta < 0) else leftCode) + ".v" + str(
             speed) + ".w" + str(
             int(np.round(np.abs(delta) * 100))) + ".cE\n"
         print("Command is")
