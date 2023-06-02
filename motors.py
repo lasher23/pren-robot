@@ -10,19 +10,19 @@ class Motors:
         print("Starting move thread")
         threading.Thread(target=self.move_to_internal, args=(alpha, beta, gamma, callback)).start()
 
-    def move_to_internal(self, alpha, beta, gamma, callback):
+    def move_to_internal(self, alpha, beta, gamma, callback, init=false):
         try:
             print("Moving alpha")
-            self.move_one_angle("A", alpha)
+            self.move_one_angle("A", alpha, init)
             print("Moving beta")
-            self.move_one_angle("B", beta)
+            self.move_one_angle("B", beta, init)
             print("Moving gamma")
-            self.move_one_angle("C", gamma)
+            self.move_one_angle("C", gamma, init)
             callback()
         except Exception as e:
             print(e)
 
-    def move_one_angle(self, code, angle):
+    def move_one_angle(self, code, angle, init):
         delta = np.rad2deg(angle[1]) - np.rad2deg(angle[0])
         speed = int(np.round(np.abs(np.rad2deg(angle[2]) / delta)))
         speed = 5
@@ -34,10 +34,13 @@ class Motors:
         self.serial.write(bytes(command, 'ascii'))
         while True:
             result = self.serial.readline().decode().strip()
-            if "successfully" in result:
+            if "successfully" in result or (init and "dummy" in result):
                 print("result is:")
                 print(result)
                 break
+            else:
+                print("Not Result:")
+                print(result)
 
 
 class MockMotors:
