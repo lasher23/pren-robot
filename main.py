@@ -112,7 +112,7 @@ class Robot:
         {
             "position": {
                 "x": 200,
-                "y": 600,
+                "y": 400,
                 "z": 200
             }
         },
@@ -183,7 +183,7 @@ class Robot:
                                     (0, -0.0174533, MOVEMENT_DURATION), self.new_sector, False, True)
                 self.current_robot_position = {"x": 115.14, "y": 115.14, "z": 0}
                 self.current_angles = {"alpha": 0.785398 - 0.0174533, "beta": 1.43117 - 0.0174533,
-                                       "gamma": 0.279253 - 0.0174533}
+                                       "gamma": 2.86234 - 0.0174533}
                 self.state = MOVING
             elif self.state == NEW_SECTOR:
                 if self.current_sector is None or self.current_sector >= len(self.sectors) - 1:
