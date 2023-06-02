@@ -24,12 +24,13 @@ class Motors:
 
     def move_one_angle(self, code, angle, init, ignore_check):
         delta = np.rad2deg(angle[1]) - np.rad2deg(angle[0])
+        print("Delta: " + delta)
         speed = int(np.round(np.abs(np.rad2deg(angle[2]) / delta)))
         speed = 5
         right_code = "R" if code == "A" else "D" if code == "B" else "U"
-        right_code = "L" if code == "A" else "U" if code == "B" else "D"
+        left_code = "L" if code == "A" else "U" if code == "B" else "D"
         check = "D" if ignore_check else "E"
-        command = "step m" + code + ".d" + (right_code if (delta < 0) else right_code) + ".v" + str(
+        command = "step m" + code + ".d" + (right_code if (delta < 0) else left_code) + ".v" + str(
             speed) + ".w" + str(
             int(np.round(np.abs(delta) * 100))) + ".c" + check + "\n"
         print("Command is")
