@@ -28,7 +28,7 @@ STOP_ROBOT = "STOP_ROBOT"
 STOPPED = "STOPPED"
 MOVE_STEP_DOWN = "MOVE_STEP_DOWN"
 CHECK_FURTHER_DOWN = "CHECK_FURTHER_DOWN"
-
+INIT_DONE = "INIT_DONE"
 CIGARETTES_DROP = {"x": 180, "y": 200, "z": 100}
 PET_DROP = {"x": 90, "y": 200, "z": 100}
 KRONKORKEN_DROP = {"x": -90, "y": 200, "z": 100}
@@ -171,21 +171,13 @@ class Robot:
                     self.state = STOP_ROBOT
             # print("Current state: " + state)
             if self.state == "INIT":
-                self.target_position = {"x": 0, "y": 400, "z": 200}
-                self.current_robot_position = {"x": 100, "y": 100, "z": 0}
-                self.current_angles = {"alpha": 0, "beta": 0, "gamma": 0}
-                additional_angles = calculate_new_angles_movement(self.current_robot_position, self.target_position)
-                self.moving_to_angles = add_angles(self.current_angles, additional_angles)
-                print("Initialized Robot at Position: " + str(self.current_robot_position))
-                post_move((self.current_angles["alpha"], self.moving_to_angles["alpha"], MOVEMENT_DURATION),
-                          (self.current_angles["beta"], self.moving_to_angles["beta"], MOVEMENT_DURATION),
-                          (self.current_angles["gamma"], self.moving_to_angles["gamma"], MOVEMENT_DURATION))
-                self.current_angles = self.moving_to_angles
-                self.current_robot_position = self.target_position
-                time.sleep(MOVEMENT_DURATION / 1000)
-                self.state = NEW_SECTOR
                 start_run()
-                # TODO Stuff above is shit beautify
+                self.motors.move_to({"alpha": 180, "beta": 180, "gamma": 180}, self.init_done)
+                self.moving()
+            if self.state == INIT_DONE:
+                self.current_robot_position = {"x": 0, "y": 400, "z": 200}
+                self.current_angles = {"alpha": 0, "beta": 0, "gamma": 0}
+                self.state = NEW_SECTOR
             elif self.state == NEW_SECTOR:
                 if self.current_sector is None or self.current_sector >= len(self.sectors) - 1:
                     self.current_sector = -1
@@ -244,6 +236,9 @@ class Robot:
         print("stoping robot")
         stop_run()
         sys.exit(0)
+
+    def init_done(self):
+        self.state = INIT_DONE
 
     def move_step_down(self):
         self.state = MOVE_STEP_DOWN
