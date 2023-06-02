@@ -178,9 +178,9 @@ class Robot:
                                     (0, 90, MOVEMENT_DURATION), self.init_done, True)
                 self.moving()
             if self.state == INIT_DONE:
-                self.motors.move_to((0, -1, MOVEMENT_DURATION),
-                                    (0, -1, MOVEMENT_DURATION),
-                                    (0, -1, MOVEMENT_DURATION), self.new_sector, False, True)
+                self.motors.move_to((0, -0.0174533, MOVEMENT_DURATION),
+                                    (0, -0.0174533, MOVEMENT_DURATION),
+                                    (0, -0.0174533, MOVEMENT_DURATION), self.new_sector, False, True)
                 self.current_robot_position = {"x": 115.14, "y": 115.14, "z": 0}
                 self.current_angles = {"alpha": 0.785398, "beta": 1.43117, "gamma": 0.279253}
                 self.state = MOVING
