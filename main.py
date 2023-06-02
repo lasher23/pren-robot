@@ -182,7 +182,8 @@ class Robot:
                                     (0, -0.0174533, MOVEMENT_DURATION),
                                     (0, -0.0174533, MOVEMENT_DURATION), self.new_sector, False, True)
                 self.current_robot_position = {"x": 115.14, "y": 115.14, "z": 0}
-                self.current_angles = {"alpha": 0.785398, "beta": 1.43117, "gamma": 0.279253}
+                self.current_angles = {"alpha": 0.785398 - 0.0174533, "beta": 1.43117 - 0.0174533,
+                                       "gamma": 0.279253 - 0.0174533}
                 self.state = MOVING
             elif self.state == NEW_SECTOR:
                 if self.current_sector is None or self.current_sector >= len(self.sectors) - 1:
@@ -267,6 +268,8 @@ class Robot:
 
     def move_to_coordinates(self, coordinates, state_change_callback):
         self.target_position = coordinates
+        self.log_current_position()
+        self.log_current_angles()
         self.log_target_position()
         self.moving_to_angles = add_angles(
             self.current_angles,
@@ -303,8 +306,17 @@ class Robot:
                 np.rad2deg(self.moving_to_angles["beta"])) + ") , gamma(" + str(
                 np.rad2deg(self.moving_to_angles["gamma"])) + ")")
 
+    def log_current_angles(self):
+        print(
+            "Moving Robot to anlges RAD: alpha(" + str(self.current_angles["alpha"]) + "), beta(" + str(
+                self.current_angles["beta"]) + "), gamma(" + str(self.current_angles["gamma"]) + ")")
+        print(
+            "Moving Robot to anlges DEG: alpha(" + str(np.rad2deg(self.current_angles["alpha"])) + "), beta(" + str(
+                np.rad2deg(self.current_angles["beta"])) + ") , gamma(" + str(
+                np.rad2deg(self.current_angles["gamma"])) + ")")
+
     def log_target_position(self):
-        print("Target Position calculated: x(" + str(self.target_position["x"]) + "), y("
+        print("Target Position: x(" + str(self.target_position["x"]) + "), y("
               + str(self.target_position["y"]) + "), z(" + str(self.target_position["z"]) + ")")
 
     def log_current_position(self):
