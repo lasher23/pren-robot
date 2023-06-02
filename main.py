@@ -176,14 +176,14 @@ class Robot:
                 self.motors.move_to((0, 90, MOVEMENT_DURATION),
                                     (0, 90, MOVEMENT_DURATION),
                                     (0, 90, MOVEMENT_DURATION), self.init_done, True)
-                self.motors.move_to((0, -1, MOVEMENT_DURATION),
-                                    (0, -1, MOVEMENT_DURATION),
-                                    (0, -1, MOVEMENT_DURATION), self.init_done, False, True)
                 self.moving()
             if self.state == INIT_DONE:
-                self.current_robot_position = {"x": 0, "y": 400, "z": 200}
-                self.current_angles = {"alpha": 0, "beta": 0, "gamma": 0}
-                self.state = NEW_SECTOR
+                self.motors.move_to((0, -1, MOVEMENT_DURATION),
+                                    (0, -1, MOVEMENT_DURATION),
+                                    (0, -1, MOVEMENT_DURATION), self.new_sector, False, True)
+                self.current_robot_position = {"x": 115.14, "y": 115.14, "z": 0}
+                self.current_angles = {"alpha": 0.785398, "beta": 1.43117, "gamma": 0.279253}
+                self.state = MOVING
             elif self.state == NEW_SECTOR:
                 if self.current_sector is None or self.current_sector >= len(self.sectors) - 1:
                     self.current_sector = -1
@@ -243,6 +243,9 @@ class Robot:
         print("stoping robot")
         stop_run()
         sys.exit(0)
+
+    def new_sector(self):
+        self.state = NEW_SECTOR
 
     def init_done(self):
         self.state = INIT_DONE
