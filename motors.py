@@ -34,7 +34,7 @@ class Motors:
         self.serial.write(bytes(command, 'ascii'))
         while True:
             result = self.serial.readline().decode().strip()
-            if "successfully" in result or (init and "dummy" in result):
+            if "successfully" in result or (init and "move failed" in result):
                 print("result is:")
                 print(result)
                 break
