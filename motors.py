@@ -6,11 +6,11 @@ class Motors:
     def __init__(self, serial):
         self.serial = serial
 
-    def move_to(self, alpha, beta, gamma, callback):
+    def move_to(self, alpha, beta, gamma, callback, init=False):
         print("Starting move thread")
-        threading.Thread(target=self.move_to_internal, args=(alpha, beta, gamma, callback)).start()
+        threading.Thread(target=self.move_to_internal, args=(alpha, beta, gamma, callback, init)).start()
 
-    def move_to_internal(self, alpha, beta, gamma, callback, init=False):
+    def move_to_internal(self, alpha, beta, gamma, callback, init):
         try:
             print("Moving alpha")
             self.move_one_angle("A", alpha, init)
