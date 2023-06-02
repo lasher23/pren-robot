@@ -24,8 +24,8 @@ class Motors:
 
     def move_one_angle(self, code, angle, init, ignore_check, beta=None):
         delta = np.rad2deg(angle[1]) - np.rad2deg(angle[0])
-        if not beta is None:
-            delta -= np.rad2deg(beta[1]) - np.beta(angle[0])
+        if beta is not None and not init:
+            delta -= np.rad2deg(beta[1]) - np.rad2deg(beta[0])
         print("Delta: " + str(delta))
         speed = int(np.round(np.abs(np.rad2deg(angle[2]) / delta)))
         speed = 5
