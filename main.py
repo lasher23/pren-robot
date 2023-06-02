@@ -83,7 +83,7 @@ class Robot:
     ser = serial.Serial('/dev/ttyACM0', 57600, timeout=10000)
     motors = Motors(ser)
     height_sensor = HeightSensor(ser)
-    vacuum_picker = VacuumPicker()
+    vacuum_picker = VacuumPicker(ser)
     current_robot_position = None
     target_position = None
     current_angles = {"alpha": None, "beta": None, "gamma": None}
