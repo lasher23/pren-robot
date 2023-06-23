@@ -48,10 +48,10 @@ CAMERA_OFFSET = 30
 
 
 def calculate_target_coordinates_from_pixels(current_robot_position, on_camera_position_pixels, current_angles):
-    pi_cam_alpha = np.deg2rad(20.5)
-    pi_cam_beta = np.deg2rad(33)
+    pi_cam_alpha = np.deg2rad(27)
+    pi_cam_beta = np.deg2rad(27)
 
-    height_to_object = current_robot_position["z"]
+    height_to_object = current_robot_position["z"] + 105
     # todo measure height of object must be robot height + height of 0 to bottom
 
     # total_view_x = height_to_object * np.tan(pi_cam_alpha / 2) * 2
