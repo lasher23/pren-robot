@@ -35,6 +35,7 @@ class Detection:
         self.cap.set(4, IMAGE_RESOLUTION_HEIGHT)
         self.image_names = ["IMG_7913.JPG", "IMG_7914.JPG", "IMG_7915.JPG", "IMG_7916.JPG", "IMG_7917.JPG"]
         self.images = []
+        self.file_counter = 0
         for name in self.image_names:
             self.images.append(image_to_binary("images/" + name))
 
@@ -42,7 +43,8 @@ class Detection:
         if detectionStrategy == "camera":
             _, img = self.cap.read()
             # img = cv2.flip(img, 1)
-            tmp_file_path = "/tmp/image.jpg"
+            self.file_counter += 1
+            tmp_file_path = "/tmp/image-" + str(self.file_counter) + ".jpg"
             print("image legnth: " + str(len(img)))
             # rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             # retval, image = cv2.imencode('.jpg', img)
@@ -90,11 +92,11 @@ class Detection:
             type = class_type_mapping[center_object["class"]]
             x = (center_object["box"][1] + center_object["box"][3]) / 2
             y = (center_object["box"][0] + center_object["box"][2]) / 2
-            os.remove(image)
+            # os.remove(image)
             return {"x": x, "y": y, "type": type}
         else:
             print("Failed to upload image. Status code:", response.status_code)
-            os.remove(image)
+            # os.remove(image)
         return {"x": 320, "y": 320}
 
 
