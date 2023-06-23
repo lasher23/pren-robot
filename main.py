@@ -227,10 +227,10 @@ class Robot:
                 self.move_to_coordinates(self.sectors[self.current_sector]["position"], self.detect_image)
                 self.moving()
             elif self.state == DETECT_IMAGE:
-                if not self.detect_and_move_above():
+                if not self.detect_and_move_above(self.detect_image_second):
                     self.state = NEW_SECTOR
             elif self.state == DETECT_IMAGE_SECOND:
-                if not self.detect_and_move_above():
+                if not self.detect_and_move_above(self.above_element):
                     self.state = NEW_SECTOR
             elif self.state == MOVING:
                 time.sleep(0)
@@ -370,7 +370,7 @@ class Robot:
         if self.state != MOVING:
             print("State: " + self.state)
 
-    def detect_and_move_above(self):
+    def detect_and_move_above(self, next_state):
         camera_pixel_position = self.detection.detect()
         if camera_pixel_position is None:
             print("No Image Detected")
@@ -380,7 +380,7 @@ class Robot:
                                                                    camera_pixel_position,
                                                                    self.current_angles)
         new_coordinates["z"] = 100
-        self.move_to_coordinates(new_coordinates, self.detect_image_second)
+        self.move_to_coordinates(new_coordinates, next_state)
         self.moving()
         return True
 
