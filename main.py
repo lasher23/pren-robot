@@ -64,7 +64,7 @@ def calculate_target_coordinates_from_pixels(current_robot_position, on_camera_p
 
     pixel_from_middle_x = -IMAGE_RESOLUTION_WIDTH / 2 + on_camera_position_pixels["x"]
     print("pixel_from_middle_x: " + str(pixel_from_middle_x))
-    pixel_from_middle_y = -IMAGE_RESOLUTION_HEIGHT / 2 + on_camera_position_pixels["y"]
+    pixel_from_middle_y = -IMAGE_RESOLUTION_HEIGHT / 2 + (640 - on_camera_position_pixels["y"])
     print("pixel_from_middle_y: " + str(pixel_from_middle_y))
 
     dummy_x = height_to_object * np.tan(pi_cam_alpha) * pixel_from_middle_x / 320
