@@ -41,8 +41,13 @@ class Detection:
 
     def detect(self):
         if detectionStrategy == "camera":
-            _, img = self.cap.read()
+            total_frames = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT))
+
+            # Read frames until reaching the last frame
+            for _ in range(total_frames - 1):
+                _, img = self.cap.read()
             # img = cv2.flip(img, 1)
+
             self.file_counter += 1
             tmp_file_path = "/tmp/image-" + str(self.file_counter) + ".jpg"
             print("image legnth: " + str(len(img)))
