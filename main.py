@@ -74,7 +74,7 @@ def calculate_target_coordinates_from_pixels(current_robot_position, on_camera_p
 
     distance = np.sqrt(dummy_x ** 2 + dummy_y ** 2)
     print("distance: " + str(distance))
-    angle = np.arctan2(dummy_x, -dummy_y)
+    angle = np.arctan2(-dummy_y, dummy_x)
     print("angle: " + str(angle))
 
     total_angle = alpha + angle
