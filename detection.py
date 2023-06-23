@@ -42,7 +42,7 @@ class Detection:
             _, img = self.cap.read()
             img = cv2.flip(img, 1)
             tmp_file_path = "/tmp/image.jpg"
-
+            print("image legnth" + str(len(img)))
             # rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             retval, image = cv2.imencode('.jpg', img)
             cv2.imwrite(tmp_file_path, image)
