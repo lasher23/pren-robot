@@ -30,6 +30,7 @@ class Detection:
 
     def __init__(self):
         self.cap = cv2.VideoCapture(0)
+        self.camera = picamera.PiCamera()
         self.cap.set(3, IMAGE_RESOLUTION_WIDTH)
         self.cap.set(4, IMAGE_RESOLUTION_HEIGHT)
         self.image_names = ["IMG_7913.JPG", "IMG_7914.JPG", "IMG_7915.JPG", "IMG_7916.JPG", "IMG_7917.JPG"]
@@ -39,15 +40,16 @@ class Detection:
 
     def detect(self):
         if detectionStrategy == "camera":
-            _, img = self.cap.read()
-            img = cv2.flip(img, 1)
+            # _, img = self.cap.read()
+            # img = cv2.flip(img, 1)
+            tmp_file_path = "/tmp/image.jpg"
+            self.camera.capture(tmp_file_path)
 
-            rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            retval, image = cv2.imencode('.jpg', rgb_img)
-            tmp_file_path = "/tmp/image"
-            cv2.imwrite(tmp_file_path, image)
+            # rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            # retval, image = cv2.imencode('.jpg', rgb_img)
+            # cv2.imwrite(tmp_file_path, image)
             with open(tmp_file_path, "rb") as file:
-                file.write(image)
+                # file.write(image)
                 response = requests.post(url, files={"image": file}, data={"deltaX": 20, "deltaY": 20})
         else:
             image = "images/" + self.image_names.pop(0)
