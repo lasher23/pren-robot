@@ -6,6 +6,7 @@ import requests
 from PIL import Image
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
+import picamera
 
 IMAGE_RESOLUTION_HEIGHT = 640
 IMAGE_RESOLUTION_WIDTH = 640
