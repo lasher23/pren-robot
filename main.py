@@ -63,27 +63,27 @@ def calculate_target_coordinates_from_pixels(current_robot_position, on_camera_p
     alpha = current_angles["alpha"]
 
     pixel_from_middle_x = -IMAGE_RESOLUTION_WIDTH / 2 + on_camera_position_pixels["x"]
-    print("pixel_from_middle_x: " + pixel_from_middle_x)
+    print("pixel_from_middle_x: " + str(pixel_from_middle_x))
     pixel_from_middle_y = -IMAGE_RESOLUTION_HEIGHT / 2 + on_camera_position_pixels["y"]
-    print("pixel_from_middle_y: " + pixel_from_middle_y)
+    print("pixel_from_middle_y: " + str(pixel_from_middle_y))
 
     dummy_x = height_to_object * np.tan(pi_cam_alpha) * pixel_from_middle_x / 320
-    print("dummy_x: " + dummy_x)
+    print("dummy_x: " + str(dummy_x))
     dummy_y = height_to_object * np.tan(pi_cam_beta) * pixel_from_middle_y / 320
-    print("dummy_y: " + dummy_y)
+    print("dummy_y: " + str(dummy_y))
 
     distance = np.sqrt(dummy_x ** 2 + dummy_y ** 2)
-    print("distance: " + distance)
+    print("distance: " + str(distance))
     angle = np.arctan2(dummy_x, -dummy_y)
-    print("angle: " + angle)
+    print("angle: " + str(angle))
 
     total_angle = alpha + angle
-    print("total_angle: " + total_angle)
+    print("total_angle: " + str(total_angle))
 
     minus_delta_x = distance * np.sin(total_angle)
-    print("minus_delta_x: " + minus_delta_x)
+    print("minus_delta_x: " + str(minus_delta_x))
     minus_delta_y = distance * np.cos(total_angle)
-    print("minus_delta_y: " + minus_delta_y)
+    print("minus_delta_y: " + str(minus_delta_y))
 
     return {
         "x": current_robot_position["x"] - minus_delta_x,
