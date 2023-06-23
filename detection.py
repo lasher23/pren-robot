@@ -40,12 +40,12 @@ class Detection:
     def detect(self):
         if detectionStrategy == "camera":
             _, img = self.cap.read()
-            img = cv2.flip(img, 1)
+            # img = cv2.flip(img, 1)
             tmp_file_path = "/tmp/image.jpg"
-            print("image legnth" + str(len(img)))
+            print("image legnth: " + str(len(img)))
             # rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            retval, image = cv2.imencode('.jpg', img)
-            cv2.imwrite(tmp_file_path, image)
+            # retval, image = cv2.imencode('.jpg', img)
+            cv2.imwrite(tmp_file_path, img)
             with open(tmp_file_path, "rb") as file:
                 # file.write(image)
                 response = requests.post(url, files={"image": file}, data={"deltaX": 20, "deltaY": 20})
