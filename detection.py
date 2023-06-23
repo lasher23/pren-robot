@@ -56,11 +56,10 @@ class Detection:
                 response = requests.post(url, files={"image": file}, data={"deltaX": 20, "deltaY": 20})
 
         # send the POST request with the image file as the payload
-
         # Check the response status code
         if response.status_code == 200:
             parsed = response.json()
-
+            print("Response: " + str(parsed))
             im = Image.open(image)
 
             # Display the image
