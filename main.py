@@ -54,11 +54,11 @@ def calculate_target_coordinates_from_pixels(current_robot_position, on_camera_p
     height_to_object = current_robot_position["z"]
     # todo measure height of object must be robot height + height of 0 to bottom
 
-    total_view_x = height_to_object * np.tan(pi_cam_alpha / 2) * 2
-    total_view_y = height_to_object * np.tan(pi_cam_beta / 2) * 2
-
-    pixel_per_coordinate_x = IMAGE_RESOLUTION_WIDTH / total_view_x
-    pixel_per_coordinate_y = IMAGE_RESOLUTION_HEIGHT / total_view_y
+    # total_view_x = height_to_object * np.tan(pi_cam_alpha / 2) * 2
+    # total_view_y = height_to_object * np.tan(pi_cam_beta / 2) * 2
+    #
+    # pixel_per_coordinate_x = IMAGE_RESOLUTION_WIDTH / total_view_x
+    # pixel_per_coordinate_y = IMAGE_RESOLUTION_HEIGHT / total_view_y
 
     alpha = current_angles["alpha"]
 
