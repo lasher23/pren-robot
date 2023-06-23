@@ -42,7 +42,7 @@ class Detection:
     def detect(self):
         if detectionStrategy == "camera":
             total_frames = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT))
-
+            _, img = self.cap.read()
             # Read frames until reaching the last frame
             for _ in range(total_frames - 1):
                 _, img = self.cap.read()
