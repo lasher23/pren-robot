@@ -60,7 +60,7 @@ class Detection:
         if response.status_code == 200:
             parsed = response.json()
 
-            im = Image.open(image)
+            im = Image.open(img)
 
             # Display the image
             plt.imshow(im)
