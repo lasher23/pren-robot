@@ -86,8 +86,8 @@ def calculate_target_coordinates_from_pixels(current_robot_position, on_camera_p
     print("minus_delta_y: " + str(minus_delta_y))
 
     return {
-        "x": current_robot_position["x"] - minus_delta_x,
-        "y": current_robot_position["y"] - minus_delta_y - CAMERA_OFFSET,
+        "x": current_robot_position["x"] + minus_delta_x,
+        "y": current_robot_position["y"] + minus_delta_y - CAMERA_OFFSET,
         "z": current_robot_position["z"]
     }
 
