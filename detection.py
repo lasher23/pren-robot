@@ -1,5 +1,6 @@
 import base64
 import datetime
+import os
 
 import cv2
 import requests
@@ -89,9 +90,11 @@ class Detection:
             type = class_type_mapping[center_object["class"]]
             x = (center_object["box"][1] + center_object["box"][3]) / 2
             y = (center_object["box"][0] + center_object["box"][2]) / 2
+            os.remove(image)
             return {"x": x, "y": y, "type": type}
         else:
             print("Failed to upload image. Status code:", response.status_code)
+            os.remove(image)
         return {"x": 320, "y": 320}
 
 
