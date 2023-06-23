@@ -85,7 +85,6 @@ def calculate_target_coordinates_from_pixels(current_robot_position, on_camera_p
 
 class Robot:
     state = WAIT_START
-    #    detection = Detection()
     #    motors = MockMotors()
     #     height_sensor = MockHeightSensor()
     # /dev/ttyACM0
@@ -98,24 +97,25 @@ class Robot:
     current_angles = {"alpha": None, "beta": None, "gamma": None}
     moving_to_angles = {"alpha": None, "beta": None, "gamma": None}
     current_type = None
-    detection = MockDetection([
-        {"x": 400, "y": 200, "type": "PET"},
-        None,
-        {"x": 200, "y": 400, "type": "Kronkorken"},
-        None,
-        {"x": 100, "y": 0, "type": "Cigarette"},
-        None,
-        {"x": 320, "y": 320, "type": "Valuable"},
-        None,
-        {"x": 320, "y": 320, "type": "PET"},
-        None,
-        {"x": 320, "y": 320, "type": "Kronkorken"},
-        None,
-        {"x": 320, "y": 320, "type": "Cigarette"},
-        None,
-        {"x": 320, "y": 320, "type": "Valuable"},
-        None,
-    ])
+    # detection = MockDetection([
+    #     {"x": 400, "y": 200, "type": "PET"},
+    #     None,
+    #     {"x": 200, "y": 400, "type": "Kronkorken"},
+    #     None,
+    #     {"x": 100, "y": 0, "type": "Cigarette"},
+    #     None,
+    #     {"x": 320, "y": 320, "type": "Valuable"},
+    #     None,
+    #     {"x": 320, "y": 320, "type": "PET"},
+    #     None,
+    #     {"x": 320, "y": 320, "type": "Kronkorken"},
+    #     None,
+    #     {"x": 320, "y": 320, "type": "Cigarette"},
+    #     None,
+    #     {"x": 320, "y": 320, "type": "Valuable"},
+    #     None,
+    # ])
+    detection = Detection()
     current_sector = None
     sectors = [
         {
