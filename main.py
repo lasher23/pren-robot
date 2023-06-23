@@ -14,15 +14,24 @@ import numpy as np
 from detection import IMAGE_RESOLUTION_WIDTH, IMAGE_RESOLUTION_HEIGHT, MockDetection, Detection
 from motors import MockMotors, Motors
 from positions_calculation import calculate_new_angles_movement, add_angles
-from web_api import post_move, start_run, post_object, stop_run
+from web_api import post_move, start_run, post_object, stop_run, should_run
+
+HEIGHT_SENSOR_DELTA = 10
 
 MOVEMENT_DURATION = 2000
 
-MOVING = "MOVING"
+WAIT_START = "WAIT_START"
+INIT = "INIT"
+INIT_BACK = "INIT_BACK"
+INIT_SLOW = "INIT_SLOW"
+INIT_FINISH = "INIT_FINISH"
 NEW_SECTOR = "NEW_SECTOR"
 DETECT_IMAGE = "DETECT_IMAGE"
+DETECT_IMAGE_SECOND = "DETECT_IMAGE_SECOND"
+MOVING = "MOVING"
 ABOVE_ELEMENT = "ABOVE_ELEMENT"
 AT_ELEMENT = "AT_ELEMENT"
+TO_DROP = "TO_DROP"
 DROP_ELEMENT = "DROP_ELEMENT"
 CURRENT_SECTOR = "CURRENT_SECTOR"
 STOP_ROBOT = "STOP_ROBOT"
@@ -75,7 +84,7 @@ def calculate_target_coordinates_from_pixels(current_robot_position, on_camera_p
 
 
 class Robot:
-    state = "INIT"
+    state = WAIT_START
     #    detection = Detection()
     #    motors = MockMotors()
     #     height_sensor = MockHeightSensor()
@@ -165,26 +174,40 @@ class Robot:
                     self.state = STOP_ROBOT
 
             self.log_state()
-            if datetime.now() - self.start_time >= timedelta(minutes=1):
+            if self.state != WAIT_START and not should_run():
                 if self.state == MOVING:
                     wait_until_not_moving_for_stopping = True
                 else:
                     self.state = STOP_ROBOT
             # print("Current state: " + state)
-            if self.state == "INIT":
+            if self.state == WAIT_START:
+                if should_run():
+                    self.state = INIT
+            if self.state == INIT:
                 start_run()
                 self.motors.move_to((0, 90, MOVEMENT_DURATION),
                                     (0, 90, MOVEMENT_DURATION),
-                                    (0, 90, MOVEMENT_DURATION), self.init_done, True)
+                                    (0, 90, MOVEMENT_DURATION), self.init_back, True)
                 self.moving()
-            if self.state == INIT_DONE:
+            elif self.state == INIT_BACK:
+                self.motors.move_to((0, -0.02, MOVEMENT_DURATION),
+                                    (0, -0.02, MOVEMENT_DURATION),
+                                    (0, -0.02, MOVEMENT_DURATION), self.init_slow, False, True)
+                self.moving()
+            elif self.state == INIT_SLOW:
+                start_run()
+                self.motors.move_to((0, 90, MOVEMENT_DURATION),
+                                    (0, 90, MOVEMENT_DURATION),
+                                    (0, 90, MOVEMENT_DURATION), self.init_done, True, speed=1)
+                self.moving()
+            elif self.state == INIT_DONE:
                 self.motors.move_to((0, -0.0174533, MOVEMENT_DURATION),
                                     (0, -0.0174533, MOVEMENT_DURATION),
                                     (0, -0.0174533, MOVEMENT_DURATION), self.new_sector, False, True)
                 self.current_robot_position = {"x": 115.14, "y": 115.14, "z": 0}
                 self.current_angles = {"alpha": 0.785398 - 0.0174533, "beta": 1.43117 - 0.0174533,
                                        "gamma": 2.86234 - 0.0174533}
-                self.state = MOVING
+                self.moving()
             elif self.state == NEW_SECTOR:
                 if self.current_sector is None or self.current_sector >= len(self.sectors) - 1:
                     self.current_sector = -1
@@ -195,17 +218,11 @@ class Robot:
                 self.move_to_coordinates(self.sectors[self.current_sector]["position"], self.detect_image)
                 self.moving()
             elif self.state == DETECT_IMAGE:
-                camera_pixel_position = self.detection.detect()
-                if camera_pixel_position is None:
-                    print("No Image Detected")
+                if not self.detect_and_move_above():
                     self.state = NEW_SECTOR
-                    continue
-                print("Detected Object at Position: " + str(camera_pixel_position))
-                new_coordinates = calculate_target_coordinates_from_pixels(self.current_robot_position,
-                                                                           camera_pixel_position,
-                                                                           self.current_angles)
-                self.move_to_coordinates(new_coordinates, self.above_element)
-                self.moving()
+            elif self.state == DETECT_IMAGE_SECOND:
+                if not self.detect_and_move_above():
+                    self.state = NEW_SECTOR
             elif self.state == MOVING:
                 time.sleep(0)
             elif self.state == ABOVE_ELEMENT:
@@ -221,6 +238,12 @@ class Robot:
                     self.move_step_down()
             elif self.state == AT_ELEMENT:
                 self.vacuum_picker.pick_up()
+                self.move_to_coordinates(
+                    {**self.current_robot_position, "z": self.current_robot_position["z"] - HEIGHT_SENSOR_DELTA},
+                    self.to_drop)
+
+                self.moving()
+            elif self.state == TO_DROP:
                 if self.current_type == "Kronkorken":
                     drop = KRONKORKEN_DROP
                 elif self.current_type == "PET":
@@ -229,7 +252,6 @@ class Robot:
                     drop = CIGARETTES_DROP
                 else:
                     drop = VALUABLE_DROP
-
                 self.move_to_coordinates(drop, self.drop_element)
                 self.moving()
             elif self.state == DROP_ELEMENT:
@@ -238,12 +260,21 @@ class Robot:
                 post_object(self.current_type)
                 self.state = CURRENT_SECTOR
             elif self.state == STOP_ROBOT:
-                self.move_to_coordinates({"x": 0, "y": 100, "z": 200}, self.stopped)
+                self.move_to_coordinates({"x": 0, "y": 100, "z": 100}, self.stopped)
                 self.moving()
 
         print("stoping robot")
         stop_run()
         sys.exit(0)
+
+    def to_drop(self):
+        self.state = TO_DROP
+
+    def init_back(self):
+        self.state = INIT_BACK
+
+    def init_slow(self):
+        self.state = INIT_SLOW
 
     def new_sector(self):
         self.state = NEW_SECTOR
@@ -287,6 +318,9 @@ class Robot:
     def detect_image(self):
         self.state = DETECT_IMAGE
 
+    def detect_image_second(self):
+        self.state = DETECT_IMAGE_SECOND
+
     def above_element(self):
         self.state = ABOVE_ELEMENT
 
@@ -326,6 +360,20 @@ class Robot:
     def log_state(self):
         if self.state != MOVING:
             print("State: " + self.state)
+
+    def detect_and_move_above(self):
+        camera_pixel_position = self.detection.detect()
+        if camera_pixel_position is None:
+            print("No Image Detected")
+            return False
+        print("Detected Object at Position: " + str(camera_pixel_position))
+        new_coordinates = calculate_target_coordinates_from_pixels(self.current_robot_position,
+                                                                   camera_pixel_position,
+                                                                   self.current_angles)
+        new_coordinates["z"] = 100
+        self.move_to_coordinates(new_coordinates, self.detect_image_second)
+        self.moving()
+        return True
 
 
 def combine_functions(func1, func2):

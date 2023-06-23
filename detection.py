@@ -1,4 +1,5 @@
 import base64
+import datetime
 
 import cv2
 import requests
@@ -43,13 +44,15 @@ class Detection:
 
             rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             retval, image = cv2.imencode('.jpg', rgb_img)
-            files = {"image": image}
-            # TODO REST Call
+            tmp_file_path = "/tmp/image"
+            cv2.imwrite(tmp_file_path, image)
+            with open(tmp_file_path, "rb") as file:
+                file.write(image)
+                response = requests.post(url, files={"image": file}, data={"deltaX": 20, "deltaY": 20})
         else:
-            files = {"image": self.images.pop(0)}
             image = "images/" + self.image_names.pop(0)
             with open(image, "rb") as file:
-                response = requests.post(url, files={"image": file})
+                response = requests.post(url, files={"image": file}, data={"deltaX": 20, "deltaY": 20})
 
         # send the POST request with the image file as the payload
 
@@ -78,13 +81,14 @@ class Detection:
                 rect = Rectangle((y, x), height, width, linewidth=1, edgecolor="r", facecolor="none")
                 ax.add_patch(rect)
 
-            plt.show()
+            plt.savefig("/tmp/" + datetime.datetime.now().isoformat() + ".png")
 
             print(parsed)
-            first_object = parsed[0]
-            type = class_type_mapping[first_object["class"]]
-            x = (first_object["box"][1] + first_object["box"][3]) / 2
-            y = (first_object["box"][0] + first_object["box"][2]) / 2
+            center_object = min(parsed,
+                                key=lambda r: abs(r["box"][1] + r["box"][3]) / 2 + abs(r["box"][0] + r["box"][2]) / 2)
+            type = class_type_mapping[center_object["class"]]
+            x = (center_object["box"][1] + center_object["box"][3]) / 2
+            y = (center_object["box"][0] + center_object["box"][2]) / 2
             return {"x": x, "y": y, "type": type}
         else:
             print("Failed to upload image. Status code:", response.status_code)

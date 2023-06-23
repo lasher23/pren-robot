@@ -25,3 +25,7 @@ def start_run():
 
 def stop_run():
     requests.post("%s/api/stoprun" % base_url)
+
+
+def should_run():
+    return requests.get("%s/api/runstatus" % base_url).json()["running"]
