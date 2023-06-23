@@ -49,6 +49,7 @@ class Detection:
             with open(tmp_file_path, "rb") as file:
                 # file.write(image)
                 response = requests.post(url, files={"image": file}, data={"deltaX": 20, "deltaY": 20})
+            image = tmp_file_path
         else:
             image = "images/" + self.image_names.pop(0)
             with open(image, "rb") as file:
@@ -60,7 +61,7 @@ class Detection:
         if response.status_code == 200:
             parsed = response.json()
 
-            im = Image.open(img)
+            im = Image.open(image)
 
             # Display the image
             plt.imshow(im)
