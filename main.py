@@ -16,7 +16,7 @@ from motors import MockMotors, Motors
 from positions_calculation import calculate_new_angles_movement, add_angles
 from web_api import post_move, start_run, post_object, stop_run, should_run
 
-HEIGHT_SENSOR_DELTA = 0
+HEIGHT_SENSOR_DELTA = 15
 
 MOVEMENT_DURATION = 2000
 
@@ -248,11 +248,10 @@ class Robot:
                     self.move_step_down()
             elif self.state == AT_ELEMENT:
                 self.vacuum_picker.pick_up()
-                self.to_drop()
-                # self.move_to_coordinates(
-                #     {**self.current_robot_position, "z": self.current_robot_position["z"] - HEIGHT_SENSOR_DELTA},
-                #     self.to_drop)
-                # self.moving()
+                self.move_to_coordinates(
+                    {**self.current_robot_position, "z": self.current_robot_position["z"] - HEIGHT_SENSOR_DELTA},
+                    self.to_drop)
+                self.moving()
 
             elif self.state == TO_DROP:
                 if self.current_type == "Kronkorken":
