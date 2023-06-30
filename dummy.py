@@ -7,8 +7,8 @@ print(str(np.arctan2(-45, -36)))
 
 ser = serial.Serial('/dev/ttyACM0', 57600, timeout=10000)
 
-command = "gpio pV.sH\n"
-ser.write(bytes(command, 'ascii'))
+self.serial.write(bytes("gpio mZ.sX\n", 'ascii'))
+result = self.serial.readline().decode().strip()
 
 time.sleep(10)
 
