@@ -28,6 +28,8 @@ class Motors:
         if beta is not None and not init and not ignore_check:
             delta -= np.rad2deg(beta[1]) - np.rad2deg(beta[0])
         print("Delta: " + str(delta))
+        if delta == 0:
+            return
         if speed is None:
             speed = int(np.round(np.abs(np.rad2deg(angle[2]) / delta)))
             speed = 5
