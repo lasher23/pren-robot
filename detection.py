@@ -63,7 +63,7 @@ class Detection:
         else:
             image = "images/" + self.image_names.pop(0)
             with open(image, "rb") as file:
-                response = requests.post(url, files={"image": file}, data={"deltaX": 20, "deltaY": 20}, verify=False cert=(certfile, keyfile))
+                response = requests.post(url, files={"image": file}, data={"deltaX": 20, "deltaY": 20}, verify=False, cert=(certfile, keyfile))
 
         # send the POST request with the image file as the payload
         # Check the response status code
