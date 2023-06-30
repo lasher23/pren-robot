@@ -3,7 +3,7 @@ class HeightSensor:
         self.serial = serial
 
     def sensor_on(self):
-        self.serial.write(bytes("input mz", 'ascii'))
+        self.serial.write(bytes("input mZ\n", 'ascii'))
         result = self.serial.readline().decode().strip()
         return result == "on"
 
