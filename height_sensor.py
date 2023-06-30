@@ -6,7 +6,7 @@ class HeightSensor:
         self.serial.write(bytes("gpio mZ.sX\n", 'ascii'))
         result = self.serial.readline().decode().strip()
         print("RESULT: " + result)
-        return result == "OFF"
+        return "OFF" in result
 
 
 class MockHeightSensor:
