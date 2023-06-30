@@ -30,9 +30,9 @@ def image_to_binary(image_path):
 class Detection:
 
     def __init__(self):
-        self.cap = cv2.VideoCapture(0)
-        self.cap.set(3, IMAGE_RESOLUTION_WIDTH)
-        self.cap.set(4, IMAGE_RESOLUTION_HEIGHT)
+        # self.cap = cv2.VideoCapture(0)
+        # self.cap.set(3, IMAGE_RESOLUTION_WIDTH)
+        # self.cap.set(4, IMAGE_RESOLUTION_HEIGHT)
         self.image_names = ["IMG_7913.JPG", "IMG_7914.JPG", "IMG_7915.JPG", "IMG_7916.JPG", "IMG_7917.JPG"]
         self.images = []
         self.file_counter = 0
@@ -103,6 +103,14 @@ class Detection:
             print("Failed to upload image. Status code:", response.status_code)
             # os.remove(image)
         return {"x": 320, "y": 320}
+
+    def record_image(self):
+        cap = cv2.VideoCapture(0)
+        cap.set(3, IMAGE_RESOLUTION_WIDTH)
+        cap.set(4, IMAGE_RESOLUTION_HEIGHT)
+        _, img = cap.read()
+        cap.release()
+        return img
 
 
 class MockDetection:
