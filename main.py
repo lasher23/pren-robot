@@ -32,6 +32,9 @@ MOVING = "MOVING"
 ABOVE_ELEMENT = "ABOVE_ELEMENT"
 AT_ELEMENT = "AT_ELEMENT"
 TO_DROP = "TO_DROP"
+TO_DROP_INIT_BC = "TO_DROP_INIT_BC"
+TO_DROP_MOVED_BC = "TO_DROP_MOVED_BC"
+TO_DROP_A = "TO_DROP_A"
 DROP_ELEMENT = "DROP_ELEMENT"
 CURRENT_SECTOR = "CURRENT_SECTOR"
 STOP_ROBOT = "STOP_ROBOT"
@@ -255,17 +258,39 @@ class Robot:
 
             elif self.state == TO_DROP:
                 if self.current_type == "Kronkorken":
-                    drop = KRONKORKEN_DROP
+                    drop = KRONKORKEN_DROP_ALPHA
                 elif self.current_type == "PET":
-                    drop = KRONKORKEN_DROP
+                    drop = KRONKORKEN_DROP_ALPHA
                 elif self.current_type == "Cigarette":
-                    drop = CIGARETTES_DROP
+                    drop = CIGARETTES_DROP_ALPHA
                 else:
                     drop = VALUABLE_DROP
-                self.move_to_coordinates(drop, self.drop_element, ["B", "C", "A"])
+                self.move_to_coordinates({**self.current_robot_position, "x": 0}, self.to_drop_init_bc, ["B", "C", "A"])
+                self.moving()
+            elif self.state == TO_DROP_INIT_BC:
+                self.motors.move_to((0, 90, MOVEMENT_DURATION),
+                                    (0, 90, MOVEMENT_DURATION),
+                                    (0, 90, MOVEMENT_DURATION), self.to_drop_moved_bc, ["B", "C"], True)
+                self.moving()
+            elif self.state == TO_DROP_MOVED_BC:
+                self.motors.move_to((0, -0.02, MOVEMENT_DURATION),
+                                    (0, -0.02, MOVEMENT_DURATION),
+                                    (0, -0.02, MOVEMENT_DURATION), self.to_drop_a, ["B", "C"], False, True)
+                self.moving()
+            elif self.state == TO_DROP_A:
+                if self.current_type == "Kronkorken":
+                    angle = -0.698132
+                elif self.current_type == "PET":
+                    angle = 0.698132 * 2
+                elif self.current_type == "Cigarette":
+                    angle = -0.698132
+                else:
+                    angle = -0.698132 * 2
+                self.motors.move_to((0, angle, MOVEMENT_DURATION),
+                                    (0, -0.02, MOVEMENT_DURATION),
+                                    (0, -0.02, MOVEMENT_DURATION), self.drop_element, ["A"], False, True)
                 self.moving()
             elif self.state == DROP_ELEMENT:
-                # TODO drop element
                 self.vacuum_picker.drop_down()
                 post_object(self.current_type)
                 self.state = CURRENT_SECTOR
@@ -279,6 +304,15 @@ class Robot:
 
     def to_drop(self):
         self.state = TO_DROP
+
+    def to_drop_a(self):
+        self.state = TO_DROP_A
+
+    def to_drop_moved_bc(self):
+        self.state = TO_DROP_MOVED_BC
+
+    def to_drop_init_bc(self):
+        self.state = TO_DROP_INIT_BC
 
     def init_back(self):
         self.state = INIT_BACK
