@@ -44,7 +44,7 @@ PET_DROP = {"x": 90, "y": 200, "z": 20}
 KRONKORKEN_DROP = {"x": -90, "y": 200, "z": 20}
 VALUABLE_DROP = {"x": -180, "y": 200, "z": 20}
 
-CAMERA_OFFSET = 15
+CAMERA_OFFSET = 50
 
 
 def calculate_target_coordinates_from_pixels(current_robot_position, on_camera_position_pixels, current_angles):
