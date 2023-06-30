@@ -39,10 +39,10 @@ STOPPED = "STOPPED"
 MOVE_STEP_DOWN = "MOVE_STEP_DOWN"
 CHECK_FURTHER_DOWN = "CHECK_FURTHER_DOWN"
 INIT_DONE = "INIT_DONE"
-CIGARETTES_DROP = {"x": 150, "y": 180, "z": 4}
-PET_DROP = {"x": 80, "y": 190, "z": 4}
-KRONKORKEN_DROP = {"x": -80, "y": 180, "z": 4}
-VALUABLE_DROP = {"x": -150, "y": 180, "z": 4}
+CIGARETTES_DROP = {"x": 140, "y": 170, "z": 4}
+PET_DROP = {"x": 70, "y": 170, "z": 4}
+KRONKORKEN_DROP = {"x": -70, "y": 170, "z": 4}
+VALUABLE_DROP = {"x": -140, "y": 170, "z": 4}
 
 CAMERA_OFFSET = 60
 
