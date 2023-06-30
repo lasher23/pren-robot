@@ -17,7 +17,7 @@ class Motors:
             for element in order:
                 print("Moving " + element)
                 self.move_one_angle(element, alpha if element == "A" else beta if element == "B" else gamma, init,
-                                    ignore_check, speed=speed)
+                                    ignore_check, beta=beta if element == "C" else None, speed=speed)
             # print("Moving alpha")
             # self.move_one_angle("A", alpha, init, ignore_check, speed=speed)
             # print("Moving beta")
