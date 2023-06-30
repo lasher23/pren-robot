@@ -39,12 +39,12 @@ STOPPED = "STOPPED"
 MOVE_STEP_DOWN = "MOVE_STEP_DOWN"
 CHECK_FURTHER_DOWN = "CHECK_FURTHER_DOWN"
 INIT_DONE = "INIT_DONE"
-CIGARETTES_DROP = {"x": 180, "y": 200, "z": 100}
-PET_DROP = {"x": 90, "y": 200, "z": 100}
-KRONKORKEN_DROP = {"x": -90, "y": 200, "z": 100}
-VALUABLE_DROP = {"x": -180, "y": 200, "z": 100}
+CIGARETTES_DROP = {"x": 180, "y": 200, "z": 20}
+PET_DROP = {"x": 90, "y": 200, "z": 20}
+KRONKORKEN_DROP = {"x": -90, "y": 200, "z": 20}
+VALUABLE_DROP = {"x": -180, "y": 200, "z": 20}
 
-CAMERA_OFFSET = 30
+CAMERA_OFFSET = 15
 
 
 def calculate_target_coordinates_from_pixels(current_robot_position, on_camera_position_pixels, current_angles):
