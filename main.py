@@ -373,7 +373,7 @@ class Robot:
 
     def detect_and_move_above(self, next_state):
         camera_pixel_position = self.detection.detect()
-        if camera_pixel_position is None:
+        if camera_pixel_position is None or not camera_pixel_position:
             print("No Image Detected")
             return False
         print("Detected Object at Position: " + str(camera_pixel_position))
