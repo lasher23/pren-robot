@@ -10,7 +10,7 @@ from matplotlib.patches import Rectangle
 
 IMAGE_RESOLUTION_HEIGHT = 640
 IMAGE_RESOLUTION_WIDTH = 640
-url = "http://prenh22-naufdenb.el.eee.intern:443/detect"
+url = "https://prenh22-naufdenb.el.eee.intern:443/detect"
 detectionStrategy = "camera"
 certfile = "client_cert.pem"
 keyfile = "client_key.pem"
