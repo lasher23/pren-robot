@@ -39,10 +39,10 @@ STOPPED = "STOPPED"
 MOVE_STEP_DOWN = "MOVE_STEP_DOWN"
 CHECK_FURTHER_DOWN = "CHECK_FURTHER_DOWN"
 INIT_DONE = "INIT_DONE"
-CIGARETTES_DROP = {"x": 160, "y": 180, "z": 20}
-PET_DROP = {"x": 80, "y": 180, "z": 20}
-KRONKORKEN_DROP = {"x": -80, "y": 180, "z": 20}
-VALUABLE_DROP = {"x": -160, "y": 180, "z": 20}
+CIGARETTES_DROP = {"x": 160, "y": 200, "z": 20}
+PET_DROP = {"x": 80, "y": 200, "z": 20}
+KRONKORKEN_DROP = {"x": -80, "y": 200, "z": 20}
+VALUABLE_DROP = {"x": -160, "y": 200, "z": 20}
 
 CAMERA_OFFSET = 60
 
@@ -239,7 +239,7 @@ class Robot:
                 self.vacuum_picker.pick_up()
                 self.check_further_down()
             elif self.state == MOVE_STEP_DOWN:
-                self.move_to_coordinates({**self.current_robot_position, "z": self.current_robot_position["z"] - 2},
+                self.move_to_coordinates({**self.current_robot_position, "z": self.current_robot_position["z"] - 10},
                                          self.check_further_down)
                 self.moving()
             elif self.state == CHECK_FURTHER_DOWN:
