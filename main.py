@@ -239,7 +239,7 @@ class Robot:
                 self.vacuum_picker.pick_up()
                 self.check_further_down()
             elif self.state == MOVE_STEP_DOWN:
-                self.move_to_coordinates({**self.current_robot_position, "z": self.current_robot_position["z"] - 10},
+                self.move_to_coordinates({**self.current_robot_position, "z": self.current_robot_position["z"] - 5},
                                          self.check_further_down)
                 self.moving()
             elif self.state == CHECK_FURTHER_DOWN:
