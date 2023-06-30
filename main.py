@@ -197,23 +197,23 @@ class Robot:
                 self.vacuum_picker.drop_down()
                 self.motors.move_to((0, 90, MOVEMENT_DURATION),
                                     (0, 90, MOVEMENT_DURATION),
-                                    (0, 90, MOVEMENT_DURATION), self.init_back, True)
+                                    (0, 90, MOVEMENT_DURATION), self.init_back, ["B", "C", "A"], True)
                 self.moving()
             elif self.state == INIT_BACK:
                 self.motors.move_to((0, -0.02, MOVEMENT_DURATION),
                                     (0, -0.02, MOVEMENT_DURATION),
-                                    (0, -0.02, MOVEMENT_DURATION), self.init_slow, False, True)
+                                    (0, -0.02, MOVEMENT_DURATION), self.init_slow, ["B", "C", "A"], False, True)
                 self.moving()
             elif self.state == INIT_SLOW:
                 start_run()
                 self.motors.move_to((0, 90, MOVEMENT_DURATION),
                                     (0, 90, MOVEMENT_DURATION),
-                                    (0, 90, MOVEMENT_DURATION), self.init_done, True, speed=1)
+                                    (0, 90, MOVEMENT_DURATION), self.init_done, ["B", "C", "A"], True, speed=1)
                 self.moving()
             elif self.state == INIT_DONE:
                 self.motors.move_to((0, -0.0174533, MOVEMENT_DURATION),
                                     (0, -0.0174533, MOVEMENT_DURATION),
-                                    (0, -0.0174533, MOVEMENT_DURATION), self.new_sector, False, True)
+                                    (0, -0.0174533, MOVEMENT_DURATION), self.new_sector, ["B", "C", "A"], False, True)
                 self.current_robot_position = {"x": 115.14, "y": 115.14, "z": 0}
                 self.current_angles = {"alpha": 0.785398 - 0.0174533, "beta": 1.43117 - 0.0174533,
                                        "gamma": 2.86234 - 0.0174533}

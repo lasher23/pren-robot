@@ -6,7 +6,7 @@ class Motors:
     def __init__(self, serial):
         self.serial = serial
 
-    def move_to(self, alpha, beta, gamma, callback, order, init=False, ignore_check=False, speed=None, ):
+    def move_to(self, alpha, beta, gamma, callback, order, init=False, ignore_check=False, speed=None):
         print("Starting move thread")
         threading.Thread(target=self.move_to_internal,
                          args=(alpha, beta, gamma, callback, init, ignore_check, speed, order)).start()
