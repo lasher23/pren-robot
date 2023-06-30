@@ -194,6 +194,7 @@ class Robot:
                     self.state = INIT
             if self.state == INIT:
                 start_run()
+                self.vacuum_picker.drop_down()
                 self.motors.move_to((0, 90, MOVEMENT_DURATION),
                                     (0, 90, MOVEMENT_DURATION),
                                     (0, 90, MOVEMENT_DURATION), self.init_back, True)
@@ -247,11 +248,12 @@ class Robot:
                     self.move_step_down()
             elif self.state == AT_ELEMENT:
                 self.vacuum_picker.pick_up()
-                self.move_to_coordinates(
-                    {**self.current_robot_position, "z": self.current_robot_position["z"] - HEIGHT_SENSOR_DELTA},
-                    self.to_drop)
+                self.to_drop()
+                # self.move_to_coordinates(
+                #     {**self.current_robot_position, "z": self.current_robot_position["z"] - HEIGHT_SENSOR_DELTA},
+                #     self.to_drop)
+                # self.moving()
 
-                self.moving()
             elif self.state == TO_DROP:
                 if self.current_type == "Kronkorken":
                     drop = KRONKORKEN_DROP
