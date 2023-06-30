@@ -42,7 +42,7 @@ INIT_DONE = "INIT_DONE"
 CIGARETTES_DROP = {"x": 140, "y": 160, "z": 8}
 PET_DROP = {"x": 70, "y": 160, "z": 4}
 KRONKORKEN_DROP = {"x": -70, "y": 160, "z": 8}
-VALUABLE_DROP = {"x": -140, "y": 160, "z": 8}
+VALUABLE_DROP = {"x": -120, "y": 160, "z": 8}
 
 CAMERA_OFFSET = 60
 
@@ -130,7 +130,7 @@ class Robot:
         {
             "position": {
                 "x": 100,
-                "y": 500,
+                "y": 600,
                 "z": 100
             }
         },
@@ -377,6 +377,7 @@ class Robot:
             print("No Image Detected")
             return False
         print("Detected Object at Position: " + str(camera_pixel_position))
+        self.current_type = camera_pixel_position["type"]
         new_coordinates = calculate_target_coordinates_from_pixels(self.current_robot_position,
                                                                    camera_pixel_position,
                                                                    self.current_angles)
