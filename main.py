@@ -16,7 +16,7 @@ from motors import MockMotors, Motors
 from positions_calculation import calculate_new_angles_movement, add_angles
 from web_api import post_move, start_run, post_object, stop_run, should_run
 
-HEIGHT_SENSOR_DELTA = 39
+HEIGHT_SENSOR_DELTA = 20
 
 MOVEMENT_DURATION = 2000
 
