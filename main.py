@@ -16,7 +16,7 @@ from motors import MockMotors, Motors
 from positions_calculation import calculate_new_angles_movement, add_angles
 from web_api import post_move, start_run, post_object, stop_run, should_run
 
-HEIGHT_SENSOR_DELTA = 15
+HEIGHT_SENSOR_DELTA = 10
 
 MOVEMENT_DURATION = 2000
 
@@ -39,12 +39,12 @@ STOPPED = "STOPPED"
 MOVE_STEP_DOWN = "MOVE_STEP_DOWN"
 CHECK_FURTHER_DOWN = "CHECK_FURTHER_DOWN"
 INIT_DONE = "INIT_DONE"
-CIGARETTES_DROP = {"x": 160, "y": 200, "z": 20}
-PET_DROP = {"x": 80, "y": 200, "z": 20}
-KRONKORKEN_DROP = {"x": -80, "y": 200, "z": 20}
-VALUABLE_DROP = {"x": -160, "y": 200, "z": 20}
+CIGARETTES_DROP = {"x": 160, "y": 150, "z": 20}
+PET_DROP = {"x": 80, "y": 150, "z": 20}
+KRONKORKEN_DROP = {"x": -80, "y": 150, "z": 20}
+VALUABLE_DROP = {"x": -160, "y": 150, "z": 20}
 
-CAMERA_OFFSET = 50
+CAMERA_OFFSET = 55
 
 
 def calculate_target_coordinates_from_pixels(current_robot_position, on_camera_position_pixels, current_angles):
