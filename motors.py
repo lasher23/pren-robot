@@ -13,6 +13,7 @@ class Motors:
 
     def move_to_internal(self, alpha, beta, gamma, callback, init, ignore_check, speed, order):
         try:
+            print("Moving in order " + str(order))
             for element in order:
                 print("Moving " + element)
                 self.move_one_angle(element, alpha if element == "A" else beta if element == "B" else gamma, init,
