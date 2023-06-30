@@ -262,7 +262,7 @@ class Robot:
                     drop = CIGARETTES_DROP
                 else:
                     drop = VALUABLE_DROP
-                self.move_to_coordinates(drop, self.drop_element)
+                self.move_to_coordinates(drop, self.drop_element, ["B", "C", "A"])
                 self.moving()
             elif self.state == DROP_ELEMENT:
                 # TODO drop element
@@ -307,7 +307,7 @@ class Robot:
     def drop_element(self):
         self.state = DROP_ELEMENT
 
-    def move_to_coordinates(self, coordinates, state_change_callback):
+    def move_to_coordinates(self, coordinates, state_change_callback, order=["A", "B", "C"]):
         self.target_position = coordinates
         self.log_current_position()
         self.log_current_angles()
@@ -320,7 +320,7 @@ class Robot:
         self.motors.move_to((self.current_angles["alpha"], self.moving_to_angles["alpha"], MOVEMENT_DURATION),
                             (self.current_angles["beta"], self.moving_to_angles["beta"], MOVEMENT_DURATION),
                             (self.current_angles["gamma"], self.moving_to_angles["gamma"], MOVEMENT_DURATION),
-                            combine_functions(self.on_moved, state_change_callback))
+                            combine_functions(self.on_moved, state_change_callback), order)
         post_move((self.current_angles["alpha"], self.moving_to_angles["alpha"], MOVEMENT_DURATION),
                   (self.current_angles["beta"], self.moving_to_angles["beta"], MOVEMENT_DURATION),
                   (self.current_angles["gamma"], self.moving_to_angles["gamma"], MOVEMENT_DURATION))

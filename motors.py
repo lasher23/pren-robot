@@ -6,19 +6,23 @@ class Motors:
     def __init__(self, serial):
         self.serial = serial
 
-    def move_to(self, alpha, beta, gamma, callback, init=False, ignore_check=False, speed=None):
+    def move_to(self, alpha, beta, gamma, callback, order, init=False, ignore_check=False, speed=None, ):
         print("Starting move thread")
         threading.Thread(target=self.move_to_internal,
                          args=(alpha, beta, gamma, callback, init, ignore_check, speed)).start()
 
-    def move_to_internal(self, alpha, beta, gamma, callback, init, ignore_check, speed=None):
+    def move_to_internal(self, alpha, beta, gamma, callback, init, ignore_check, speed, order):
         try:
-            print("Moving alpha")
-            self.move_one_angle("A", alpha, init, ignore_check, speed=speed)
-            print("Moving beta")
-            self.move_one_angle("B", beta, init, ignore_check, speed=speed)
-            print("Moving gamma")
-            self.move_one_angle("C", gamma, init, ignore_check, beta, speed)
+            for element in order:
+                print("Moving " + element)
+                self.move_one_angle(element, alpha if element == "A" else beta if element == "B" else gamma, init,
+                                    ignore_check, speed=speed)
+            # print("Moving alpha")
+            # self.move_one_angle("A", alpha, init, ignore_check, speed=speed)
+            # print("Moving beta")
+            # self.move_one_angle("B", beta, init, ignore_check, speed=speed)
+            # print("Moving gamma")
+            # self.move_one_angle("C", gamma, init, ignore_check, beta, speed)
             callback()
         except Exception as e:
             print(e)
