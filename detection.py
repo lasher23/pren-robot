@@ -58,12 +58,12 @@ class Detection:
             cv2.imwrite(tmp_file_path, img)
             with open(tmp_file_path, "rb") as file:
                 # file.write(image)
-                response = requests.post(url, files={"image": file}, data={"deltaX": 20, "deltaY": 20}, cert=(certfile, keyfile))
+                response = requests.post(url, files={"image": file}, data={"deltaX": 20, "deltaY": 20}, verify=False, cert=(certfile, keyfile))
             image = tmp_file_path
         else:
             image = "images/" + self.image_names.pop(0)
             with open(image, "rb") as file:
-                response = requests.post(url, files={"image": file}, data={"deltaX": 20, "deltaY": 20}, cert=(certfile, keyfile))
+                response = requests.post(url, files={"image": file}, data={"deltaX": 20, "deltaY": 20}, verify=False cert=(certfile, keyfile))
 
         # send the POST request with the image file as the payload
         # Check the response status code
