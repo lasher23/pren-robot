@@ -236,6 +236,7 @@ class Robot:
             elif self.state == MOVING:
                 time.sleep(0)
             elif self.state == ABOVE_ELEMENT:
+                self.vacuum_picker.pick_up()
                 self.check_further_down()
             elif self.state == MOVE_STEP_DOWN:
                 self.move_to_coordinates({**self.current_robot_position, "z": self.current_robot_position["z"] - 10},
@@ -247,7 +248,6 @@ class Robot:
                 else:
                     self.move_step_down()
             elif self.state == AT_ELEMENT:
-                self.vacuum_picker.pick_up()
                 self.move_to_coordinates(
                     {**self.current_robot_position, "z": self.current_robot_position["z"] - HEIGHT_SENSOR_DELTA},
                     self.to_drop)
